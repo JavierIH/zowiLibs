@@ -1,6 +1,6 @@
 /******************************************************************************
 * Zowi Battery Reader Library
-* 
+*
 * @version 20150831
 * @author Raul de Pablos Martin
 *
@@ -18,14 +18,13 @@ BatReader::BatReader() {
 }
 
 double BatReader::readBatVoltage(void) {
-	double readed = (double)(analogRead(BAT_PIN)*ANA_REF)/1024;
-	if(readed > BAT_MAX) return BAT_MAX;
-	else return readed;
+	double data = (analogRead(BAT_PIN)*AN_REF)/1024;
+	if(data > BAT_MAX) return BAT_MAX;
+	else return data;
 }
 
 double BatReader::readBatPercent(void) {
-	double value = (SLOPE*readBatVoltage()) - OFFSET;
-	if(value < 0) return 0;
-	else return value;
+	double data = (_slope*readBatVoltage()) - _offset;
+	if(data < 0) return 0;
+	else return data;
 }
-
