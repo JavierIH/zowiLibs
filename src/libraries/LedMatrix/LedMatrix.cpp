@@ -1,6 +1,6 @@
 /******************************************************************************
 * Zowi LED Matrix Library
-* 
+*
 * @version 20150710
 * @author Raul de Pablos Martin
 *         José Alberca Pita-Romero (Mouth's definitions)
@@ -15,16 +15,16 @@
 #endif
 
 LedMatrix::LedMatrix(char ser_pin, char clk_pin, char rck_pin) {
-	memory = 0x00000000;
-	SER = ser_pin;
-	CLK = clk_pin;
-	RCK = rck_pin;
-	pinMode(SER, OUTPUT);
-	pinMode(CLK, OUTPUT);
-	pinMode(RCK, OUTPUT);
-	digitalWrite(SER, LOW);
-	digitalWrite(CLK, LOW);
-	digitalWrite(RCK, LOW);
+  memory = 0x00000000;
+	_ser = ser_pin;
+	_clk = clk_pin;
+	_rck = rck_pin;
+	pinMode(_ser, OUTPUT);
+	pinMode(_clk, OUTPUT);
+	pinMode(_rck, OUTPUT);
+	digitalWrite(_ser, LOW);
+	digitalWrite(_clk, LOW);
+	digitalWrite(_rck, LOW);
 	sendMemory();
 }
 
@@ -63,26 +63,25 @@ void LedMatrix::setEntireMatrix(void) {
 
 void LedMatrix::sendMemory(void) {
 	int i;
-	
+
 	for(i = 0; i < MATRIX_LENGTH; i++) {
-		digitalWrite(SER, 1L & (memory >> i));	
+		digitalWrite(_ser, 1L & (memory >> i));
 		// ## adjust this delay to match with 74HC595 timing
 		asm volatile ("nop");
 		asm volatile ("nop");
 		asm volatile ("nop");
-		digitalWrite(CLK, 1);
+		digitalWrite(_clk, 1);
 		// ## adjust this delay to match with 74HC595 timing
 		asm volatile ("nop");
 		asm volatile ("nop");
 		asm volatile ("nop");
-		digitalWrite(CLK, 0);	
+		digitalWrite(_clk, 0);
 	}
-	
-	digitalWrite(RCK, 1);
+
+	digitalWrite(_rck, 1);
 	// ## adjust this delay to match with 74HC595 timing
 	asm volatile ("nop");
 	asm volatile ("nop");
 	asm volatile ("nop");
-	digitalWrite(RCK, 0);	
+	digitalWrite(_rck, 0);
 }
-
